@@ -36,10 +36,10 @@ export const selectServerToEdit = async (
     const result = await actionSelect({
       message: 'Select an MCP server and action:',
       actions: [
-        { value: 'configure', name: 'Configure', key: 'c' },
+        { value: 'add', name: 'Add New', key: 'a' },
+        { value: 'configure', name: 'Configure', key: 'return' },
         { value: 'remove', name: 'Remove', key: 'r' },
         { value: 'view', name: 'View Details', key: 'v' },
-        { value: 'add', name: 'Add New', key: 'a' },
       ],
       choices: activatedServers.map((name) => ({
         name,
