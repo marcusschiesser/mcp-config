@@ -1,12 +1,12 @@
 import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
-import { MCPConfig, ServerConfig } from '../types/types.js';
+import { MCPConfig, ServerConfig, ServerConfigFile } from '../types/types.js';
 
 // Path to the MCP config file
 const MCP_CONFIG_PATH = path.join(os.homedir(), '.codeium', 'windsurf', 'mcp_config.json');
 // Default path for server configurations
-const DEFAULT_SERVER_CONFIG_PATH = path.join(os.homedir(), '.mcp-client-servers.json');
+const DEFAULT_SERVER_CONFIG_PATH = path.join(process.cwd(), 'src', 'config', 'servers.json');
 
 /**
  * Gets the MCP config file, creates it if it doesn't exist
@@ -57,7 +57,7 @@ export const getServerConfigs = async (configPath?: string): Promise<ServerConfi
   try {
     if (await fs.pathExists(serverConfigPath)) {
       const configContent = await fs.readFile(serverConfigPath, 'utf-8');
-      const config = JSON.parse(configContent);
+      const config = JSON.parse(configContent) as ServerConfigFile;
       return config.servers || [];
     } else {
       console.log(
