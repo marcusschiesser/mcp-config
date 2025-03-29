@@ -132,4 +132,9 @@ program
     }
   });
 
-program.parse();
+// If no command is specified, default to configure
+if (process.argv.length <= 2) {
+  program.parse([process.argv[0], process.argv[1], 'configure']);
+} else {
+  program.parse();
+}
