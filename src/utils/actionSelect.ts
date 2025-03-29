@@ -73,7 +73,6 @@ export default createPrompt(
     done: (result: ActionSelectResult<ActionValue, Value>) => void
   ): string => {
     const { choices: items, loop = true, pageSize = 7 } = config;
-    const firstRender = useRef(true);
     const theme = makeTheme<SelectTheme>(selectTheme, config.theme);
     const prefix = usePrefix({ theme });
     const [status, setStatus] = useState('pending');
