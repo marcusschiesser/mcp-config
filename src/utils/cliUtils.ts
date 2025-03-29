@@ -1,8 +1,6 @@
 import inquirer from 'inquirer';
 import { ServerConfig, MCPServer, MCPConfig } from '../types/types.js';
 
-
-
 /**
  * Prompt the user to provide values for environment variables
  */
@@ -12,22 +10,22 @@ import { ServerConfig, MCPServer, MCPConfig } from '../types/types.js';
 export const selectServerToEdit = async (mcpConfig: MCPConfig): Promise<string | null> => {
   try {
     const activatedServers = Object.keys(mcpConfig.mcpServers);
-    
+
     if (activatedServers.length === 0) {
       console.log('No MCP servers are currently activated.');
       return null;
     }
-    
-    const answers = await inquirer.prompt<{serverToEdit: string}>({  
+
+    const answers = await inquirer.prompt<{ serverToEdit: string }>({
       type: 'list',
       name: 'serverToEdit',
       message: 'Currently activated MCP servers:',
-      choices: activatedServers.map(name => ({
+      choices: activatedServers.map((name) => ({
         name,
-        value: name
-      }))
+        value: name,
+      })),
     });
-    
+
     return answers.serverToEdit;
   } catch (error) {
     console.error('Error selecting servers to edit:', error);
@@ -38,11 +36,14 @@ export const selectServerToEdit = async (mcpConfig: MCPConfig): Promise<string |
 /**
  * Collect environment variables for a server
  */
-export const collectEnvVariables = async (server: ServerConfig | MCPServer, serverName: string): Promise<MCPServer> => {
+export const collectEnvVariables = async (
+  server: ServerConfig | MCPServer,
+  serverName: string
+): Promise<MCPServer> => {
   const result: MCPServer = {
     command: server.command,
     args: [...server.args],
-    env: {}
+    env: {},
   };
 
   // If no environment variables are required, return the server as is
@@ -52,10 +53,10 @@ export const collectEnvVariables = async (server: ServerConfig | MCPServer, serv
   }
 
   console.log(`\nConfiguring environment variables for ${serverName}:`);
-  
+
   // Create a prompt for each environment variable
   const envVars: Record<string, string> = {};
-  
+
   for (const key of Object.keys(server.env || {})) {
     const { [key]: value } = await inquirer.prompt<Record<string, string>>({
       type: 'input',
@@ -67,12 +68,12 @@ export const collectEnvVariables = async (server: ServerConfig | MCPServer, serv
           return `${key} cannot be empty.`;
         }
         return true;
-      }
+      },
     });
-    
+
     envVars[key] = value;
   }
-  
+
   const answers = envVars;
   result.env = answers;
 

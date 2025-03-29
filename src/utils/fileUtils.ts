@@ -15,7 +15,7 @@ export const getMCPConfig = async (): Promise<MCPConfig> => {
   try {
     // Ensure the directory exists
     await fs.ensureDir(path.dirname(MCP_CONFIG_PATH));
-    
+
     // Check if the file exists
     if (await fs.pathExists(MCP_CONFIG_PATH)) {
       const configContent = await fs.readFile(MCP_CONFIG_PATH, 'utf-8');
@@ -23,9 +23,9 @@ export const getMCPConfig = async (): Promise<MCPConfig> => {
     } else {
       // Create a default config if the file doesn't exist
       const defaultConfig: MCPConfig = {
-        mcpServers: {}
+        mcpServers: {},
       };
-      
+
       await fs.writeFile(MCP_CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
       return defaultConfig;
     }
@@ -53,14 +53,16 @@ export const updateMCPConfig = async (config: MCPConfig): Promise<void> => {
  */
 export const getServerConfigs = async (configPath?: string): Promise<ServerConfig[]> => {
   const serverConfigPath = configPath || DEFAULT_SERVER_CONFIG_PATH;
-  
+
   try {
     if (await fs.pathExists(serverConfigPath)) {
       const configContent = await fs.readFile(serverConfigPath, 'utf-8');
       const config = JSON.parse(configContent);
       return config.servers || [];
     } else {
-      console.log(`Server config file not found at ${serverConfigPath}. Using empty configuration.`);
+      console.log(
+        `Server config file not found at ${serverConfigPath}. Using empty configuration.`
+      );
       return [];
     }
   } catch (error) {
