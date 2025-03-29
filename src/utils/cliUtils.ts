@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import actionSelect from './actionSelect.js';
-import { ServerConfig, MCPServer, MCPConfig } from '../types/types.js';
+import { MCPServer, MCPConfig, EnvVariable } from '../types/types.js';
 import { getServerConfigs } from './fileUtils.js';
 
 /**
@@ -91,16 +91,12 @@ export const addNewServer = async (): Promise<{
       },
     ]);
 
-    // Find the selected server configuration
-    const serverConfig = serverConfigs.find((server) => server.name === selectedServer);
 
-    if (!serverConfig) {
-      console.log(`Server configuration for ${selectedServer} not found.`);
-      return null;
-    }
+
+    
 
     // Collect environment variables
-    const serverWithEnv = await collectEnvVariables(serverConfig, selectedServer);
+    const serverWithEnv = await collectEnvVariables(selectedServer);
 
     return {
       serverName: selectedServer,
@@ -116,17 +112,32 @@ export const addNewServer = async (): Promise<{
  * Collect environment variables for a server
  */
 export const collectEnvVariables = async (
-  server: ServerConfig | MCPServer,
-  serverName: string
+  serverName: string,
+  existingConfig?: MCPServer
 ): Promise<MCPServer> => {
+  // Get the server config by name from available server configs
+  const serverConfigs = await getServerConfigs();
+  const serverConfig = serverConfigs.find(config => config.name === serverName);
+  
+  if (!serverConfig) {
+    throw new Error(`Server configuration for ${serverName} not found. Add server to servers.json`);
+  }
+
+  // Initialize result with command and args from the server config
   const result: MCPServer = {
-    command: server.command,
-    args: [...server.args],
+    command: serverConfig.command,
+    args: [...serverConfig.args],
     env: {},
   };
 
+  // Get existing env values if available
+  const existingEnv = existingConfig?.env || {};
+
+  // Determine environment variables to collect
+  const envVarsToCollect: EnvVariable[] = serverConfig.env || [];
+  
   // If no environment variables are required, return the server as is
-  if (!server.env || Object.keys(server.env).length === 0) {
+  if (envVarsToCollect.length === 0) {
     console.log(`No environment variables required for ${serverName}.`);
     return result;
   }
@@ -136,25 +147,25 @@ export const collectEnvVariables = async (
   // Create a prompt for each environment variable
   const envVars: Record<string, string> = {};
 
-  for (const key of Object.keys(server.env || {})) {
-    const { [key]: value } = await inquirer.prompt<Record<string, string>>({
+  for (const envVar of envVarsToCollect) {
+    const varName = envVar.name;
+    const { [varName]: value } = await inquirer.prompt<Record<string, string>>({
       type: 'input',
-      name: key,
-      message: `Enter value for ${key}:`,
-      default: server.env?.[key] || '',
+      name: varName,
+      message: `Enter value for ${varName} (${envVar.description}):`,
+      default: existingEnv[varName] || '',
       validate: (input: string) => {
         if (input.trim() === '') {
-          return `${key} cannot be empty.`;
+          return `${varName} cannot be empty.`;
         }
         return true;
       },
     });
 
-    envVars[key] = value;
+    envVars[varName] = value;
   }
 
-  const answers = envVars;
-  result.env = answers;
+  result.env = envVars;
 
   return result;
 };

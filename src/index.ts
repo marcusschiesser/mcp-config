@@ -45,7 +45,7 @@ async function main() {
           const currentConfig = mcpConfig.mcpServers[serverToEdit];
 
           // Prompt for environment variables
-          const updatedServer = await collectEnvVariables(currentConfig, serverToEdit);
+          const updatedServer = await collectEnvVariables(serverToEdit, currentConfig);
 
           // Update the MCP config
           mcpConfig.mcpServers[serverToEdit] = updatedServer;

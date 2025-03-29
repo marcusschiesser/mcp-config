@@ -4,6 +4,11 @@ export interface MCPConfig {
   };
 }
 
+export interface EnvVariable {
+  name: string;
+  description: string;
+}
+
 export interface MCPServer {
   command: string;
   args: string[];
@@ -17,9 +22,7 @@ export interface ServerConfig {
   description: string;
   command: string;
   args: string[];
-  env?: {
-    [key: string]: string;
-  };
+  env?: EnvVariable[];
 }
 
 export interface ServerConfigFile {
