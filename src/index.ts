@@ -2,6 +2,7 @@
 
 import { getMCPConfig, updateMCPConfig } from './utils/fileUtils.js';
 import { collectEnvVariables, selectServerToEdit } from './utils/cliUtils.js';
+import inquirer from 'inquirer';
 
 /**
  * Main function to configure MCP servers
@@ -15,21 +16,48 @@ async function main() {
     const mcpConfig = await getMCPConfig();
 
     // Show currently activated servers and let the user select one to edit
-    const serverToEdit = await selectServerToEdit(mcpConfig);
+    const selection = await selectServerToEdit(mcpConfig);
 
-    if (serverToEdit) {
-      // Edit selected server
-      console.log('\nEditing selected server...');
-      console.log(`\nEditing ${serverToEdit}...`);
+    if (selection) {
+      const { server: serverToEdit, action } = selection;
+      
+      console.log(`\nSelected server: ${serverToEdit}, Action: ${action}`);
+      
+      // Handle different actions
+      if (action === 'configure') {
+        // Edit selected server
+        console.log(`\nConfiguring ${serverToEdit}...`);
 
-      // Get the current server configuration
-      const currentConfig = mcpConfig.mcpServers[serverToEdit];
+        // Get the current server configuration
+        const currentConfig = mcpConfig.mcpServers[serverToEdit];
 
-      // Prompt for environment variables
-      const updatedServer = await collectEnvVariables(currentConfig, serverToEdit);
+        // Prompt for environment variables
+        const updatedServer = await collectEnvVariables(currentConfig, serverToEdit);
 
-      // Update the MCP config
-      mcpConfig.mcpServers[serverToEdit] = updatedServer;
+        // Update the MCP config
+        mcpConfig.mcpServers[serverToEdit] = updatedServer;
+      } else if (action === 'remove') {
+        console.log(`\nRemoving ${serverToEdit}...`);
+        // Confirm removal
+        const confirmation = await inquirer.prompt<{ confirm: boolean }>([{
+          type: 'confirm',
+          name: 'confirm',
+          message: `Are you sure you want to remove ${serverToEdit}?`,
+          default: false
+        }]);
+        
+        if (confirmation.confirm) {
+          delete mcpConfig.mcpServers[serverToEdit];
+          console.log(`${serverToEdit} has been removed.`);
+        } else {
+          console.log('Removal cancelled.');
+          return;
+        }
+      } else if (action === 'view') {
+        console.log(`\nViewing details for ${serverToEdit}:`);
+        console.log(JSON.stringify(mcpConfig.mcpServers[serverToEdit], null, 2));
+        return;
+      }
       
       // Update the MCP config file
       await updateMCPConfig(mcpConfig);

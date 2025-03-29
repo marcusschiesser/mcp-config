@@ -1,13 +1,11 @@
 import inquirer from 'inquirer';
+import actionSelect  from './actionSelect.js';
 import { ServerConfig, MCPServer, MCPConfig } from '../types/types.js';
 
 /**
- * Prompt the user to provide values for environment variables
+ * Prompt the user to select which activated servers to edit and what action to perform
  */
-/**
- * Prompt the user to select which activated servers to edit
- */
-export const selectServerToEdit = async (mcpConfig: MCPConfig): Promise<string | null> => {
+export const selectServerToEdit = async (mcpConfig: MCPConfig): Promise<{ server: string; action: string } | null> => {
   try {
     const activatedServers = Object.keys(mcpConfig.mcpServers);
 
@@ -16,17 +14,25 @@ export const selectServerToEdit = async (mcpConfig: MCPConfig): Promise<string |
       return null;
     }
 
-    const answers = await inquirer.prompt<{ serverToEdit: string }>({
-      type: 'list',
-      name: 'serverToEdit',
-      message: 'Currently activated MCP servers:',
+    const result = await actionSelect({
+      message: 'Select an MCP server and action:',
+      actions: [
+        { value: 'configure', name: 'Configure', key: 'c' },
+        { value: 'remove', name: 'Remove', key: 'r' },
+        { value: 'view', name: 'View Details', key: 'v' }
+      ],
       choices: activatedServers.map((name) => ({
         name,
         value: name,
       })),
     });
 
-    return answers.serverToEdit;
+    if (!result) return null;
+    
+    return {
+      server: result.answer,
+      action: result.action || 'configure'
+    };
   } catch (error) {
     console.error('Error selecting servers to edit:', error);
     throw error;
