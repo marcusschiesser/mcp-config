@@ -1,3 +1,5 @@
+// based on https://github.com/zenithlight/inquirer-action-select
+// kudos to @zenithlight
 import {
   createPrompt,
   useState,
