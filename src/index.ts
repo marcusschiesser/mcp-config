@@ -83,6 +83,14 @@ async function main() {
       console.log('No servers selected or available to edit.');
     }
   } catch (error) {
+    // Check if this is an ExitPromptError (thrown when user presses Ctrl+C)
+    if (
+      error instanceof Error &&
+      (error.name === 'ExitPromptError' || error.message.includes('ExitPromptError'))
+    ) {
+      console.log('\nOperation cancelled by user.');
+      process.exit(0);
+    }
     console.error('Error configuring MCP servers:', error);
     process.exit(1);
   }
