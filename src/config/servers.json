@@ -4,7 +4,10 @@
       "name": "firecrawl",
       "description": "Web scraping and crawling MCP server for extracting data from websites",
       "command": "npx",
-      "args": ["-y", "firecrawl-mcp"],
+     "args": {
+        "fixed": ["-y", "firecrawl-mcp"],
+        "configurable": []
+      },
       "env": [
         {
           "name": "FIRECRAWL_API_KEY",
@@ -16,7 +19,23 @@
       "name": "llamacloud",
       "description": "LlamaCloud LLM provider MCP server for LlamaIndex integration",
       "command": "npx",
-      "args": ["-y", "@llamaindex/mcp-server-llamacloud"],
+      "args": {
+        "fixed": ["-y", "@llamaindex/mcp-server-llamacloud"],
+        "configurable": [
+          {
+            "type": "named",
+            "flag": "--index",
+            "description": "Name of the index to use",
+            "required": true
+          },
+          {
+            "type": "named",
+            "flag": "--description",
+            "description": "Description of the index. Used by the MCP client to decide whether to use the index or not.",
+            "required": true
+          }
+        ]
+      },  
       "env": [
         {
           "name": "LLAMA_CLOUD_PROJECT_NAME",

@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import actionSelect from './actionSelect.js';
-import { MCPServer, MCPConfig, EnvVariable } from '../types/types.js';
+import { MCPServer, MCPConfig, EnvVariable, ServerConfig } from '../types/types.js';
 import { getServerConfigs } from './fileUtils.js';
 
 /**
@@ -91,10 +91,6 @@ export const addNewServer = async (): Promise<{
       },
     ]);
 
-
-
-    
-
     // Collect environment variables
     const serverWithEnv = await collectEnvVariables(selectedServer);
 
@@ -111,22 +107,34 @@ export const addNewServer = async (): Promise<{
 /**
  * Collect environment variables for a server
  */
+/**
+ * Get a server configuration by name
+ */
+export const getServerConfig = async (serverName: string): Promise<ServerConfig> => {
+  const serverConfigs = await getServerConfigs();
+  const serverConfig = serverConfigs.find((config) => config.name === serverName);
+
+  if (!serverConfig) {
+    throw new Error(`Server configuration for ${serverName} not found. Add server to servers.json`);
+  }
+
+  return serverConfig;
+};
+
+/**
+ * Collect environment variables for a server
+ */
 export const collectEnvVariables = async (
   serverName: string,
   existingConfig?: MCPServer
 ): Promise<MCPServer> => {
   // Get the server config by name from available server configs
-  const serverConfigs = await getServerConfigs();
-  const serverConfig = serverConfigs.find(config => config.name === serverName);
-  
-  if (!serverConfig) {
-    throw new Error(`Server configuration for ${serverName} not found. Add server to servers.json`);
-  }
+  const serverConfig = await getServerConfig(serverName);
 
   // Initialize result with command and args from the server config
   const result: MCPServer = {
     command: serverConfig.command,
-    args: [...serverConfig.args],
+    args: [...serverConfig.args.fixed],
     env: {},
   };
 
@@ -135,7 +143,7 @@ export const collectEnvVariables = async (
 
   // Determine environment variables to collect
   const envVarsToCollect: EnvVariable[] = serverConfig.env || [];
-  
+
   // If no environment variables are required, return the server as is
   if (envVarsToCollect.length === 0) {
     console.log(`No environment variables required for ${serverName}.`);
