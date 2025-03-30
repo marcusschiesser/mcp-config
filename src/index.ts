@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { getMCPConfig, updateMCPConfig } from './utils/fileUtils.js';
-import { collectEnvVariables, selectServerToEdit, addNewServer } from './utils/cliUtils.js';
+import { configureServer, selectServerToEdit, addNewServer } from './utils/cliUtils.js';
 import inquirer from 'inquirer';
 
 /**
@@ -44,8 +44,8 @@ async function main() {
           // Get the current server configuration
           const currentConfig = mcpConfig.mcpServers[serverToEdit];
 
-          // Prompt for environment variables
-          const updatedServer = await collectEnvVariables(serverToEdit, currentConfig);
+          // Configure the server with environment variables
+          const updatedServer = await configureServer(serverToEdit, currentConfig);
 
           // Update the MCP config
           mcpConfig.mcpServers[serverToEdit] = updatedServer;

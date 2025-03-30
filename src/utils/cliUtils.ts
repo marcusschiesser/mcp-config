@@ -91,8 +91,8 @@ export const addNewServer = async (): Promise<{
       },
     ]);
 
-    // Collect environment variables
-    const serverWithEnv = await collectEnvVariables(selectedServer);
+    // Configure the server with environment variables
+    const serverWithEnv = await configureServer(selectedServer);
 
     return {
       serverName: selectedServer,
@@ -122,32 +122,17 @@ export const getServerConfig = async (serverName: string): Promise<ServerConfig>
 };
 
 /**
- * Collect environment variables for a server
+ * Configure environment variables for a server
  */
-export const collectEnvVariables = async (
+export const configureEnvVariables = async (
   serverName: string,
-  existingConfig?: MCPServer
-): Promise<MCPServer> => {
-  // Get the server config by name from available server configs
-  const serverConfig = await getServerConfig(serverName);
-
-  // Initialize result with command and args from the server config
-  const result: MCPServer = {
-    command: serverConfig.command,
-    args: [...serverConfig.args.fixed],
-    env: {},
-  };
-
-  // Get existing env values if available
-  const existingEnv = existingConfig?.env || {};
-
-  // Determine environment variables to collect
-  const envVarsToCollect: EnvVariable[] = serverConfig.env || [];
-
-  // If no environment variables are required, return the server as is
+  envVarsToCollect: EnvVariable[] = [],
+  existingEnv: Record<string, string> = {}
+): Promise<Record<string, string>> => {
+  // If no environment variables are required, return empty object
   if (envVarsToCollect.length === 0) {
     console.log(`No environment variables required for ${serverName}.`);
-    return result;
+    return {};
   }
 
   console.log(`\nConfiguring environment variables for ${serverName}:`);
@@ -173,7 +158,25 @@ export const collectEnvVariables = async (
     envVars[varName] = value;
   }
 
-  result.env = envVars;
+  return envVars;
+};
+
+/**
+ * Configure a server with its command, arguments and environment variables
+ */
+export const configureServer = async (
+  serverName: string,
+  existingConfig?: MCPServer
+): Promise<MCPServer> => {
+  // Get the server config by name from available server configs
+  const serverConfig = await getServerConfig(serverName);
+
+  // Initialize result with command and args from the server config
+  const result: MCPServer = {
+    command: serverConfig.command,
+    args: [...serverConfig.args.fixed],
+    env: await configureEnvVariables(serverName, serverConfig.env, existingConfig?.env),
+  };
 
   return result;
 };
