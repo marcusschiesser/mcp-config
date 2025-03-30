@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { ConfigurableArg, EnvVariable, MCPServer } from '../types/types.js';
+import { ArgsDoc, ConfigurableArg, EnvVariable, MCPServer } from '../types/types.js';
 import { getServerConfig } from './fileUtils.js';
 
 /**
@@ -13,20 +13,12 @@ export const configureServer = async (
   // Get the server config by name from available server configs
   const serverConfig = await getServerConfig(serverName);
 
-  // Collect fixed arguments - no need to add prefix
-  const fixedArgs = serverConfig.args.fixed;
-
-  // Collect configurable arguments, passing existing args if available
-  const configurableArgs = await configureArgs(
-    serverName, 
-    serverConfig.args.configurable,
-    existingConfig?.args
-  );
+  // Collect all arguments (fixed and configurable), passing existing args if available
 
   // Initialize result with command and args from the server config
   const result: MCPServer = {
     command: serverConfig.command,
-    args: [...fixedArgs, ...configurableArgs],
+    args: await configureArgs(serverName, serverConfig.args, existingConfig?.args),
     env: await configureEnvVariables(serverName, serverConfig.env, existingConfig?.env),
   };
 
@@ -74,43 +66,48 @@ const configureEnvVariables = async (
 };
 
 /**
- * Collect configurable arguments for a server
+ * Collect and return all arguments for a server (fixed and configurable)
  */
 const configureArgs = async (
   serverName: string,
-  configurableArgs: ConfigurableArg[] = [],
+  serverArgs: ArgsDoc,
   existingArgs: string[] = []
 ): Promise<string[]> => {
-  // If no configurable arguments are required, return empty array
-  if (configurableArgs.length === 0) {
+  // Get fixed args
+  const fixedArgs = serverArgs.fixed;
+
+  // If no configurable arguments are required, return only fixed args
+  if (serverArgs.configurable.length === 0) {
     console.log(`No configurable arguments required for ${serverName}.`);
-    return [];
+    return [...fixedArgs];
   }
 
   console.log(`\nConfiguring arguments for ${serverName}:`);
 
   // Create a prompt for each configurable argument
-  const args: string[] = [];
+  const configurableArgs: string[] = [];
 
-  for (const arg of configurableArgs) {
+  for (const arg of serverArgs.configurable) {
     // Find existing value for this argument if available
     let defaultValue = '';
-    
+
     if (existingArgs.length > 0 && arg.type === 'named') {
-      const flagIndex = existingArgs.findIndex(a => a === arg.flag);
+      const flagIndex = existingArgs.findIndex((a) => a === arg.flag);
       if (flagIndex !== -1 && flagIndex + 1 < existingArgs.length) {
         defaultValue = existingArgs[flagIndex + 1];
       }
     } else if (existingArgs.length > 0 && arg.type === 'position') {
       // For positional args, we'd need more context to match them correctly
       // This is a simplified approach that assumes order matters
-      const argIndex = configurableArgs.findIndex(a => a.name === arg.name);
+      const argIndex = serverArgs.configurable.findIndex(
+        (a: ConfigurableArg) => a.name === arg.name
+      );
       if (argIndex !== -1) {
         // Count how many positional args come before this one
-        const positionsBefore = configurableArgs
+        const positionsBefore = serverArgs.configurable
           .slice(0, argIndex)
-          .filter(a => a.type === 'position').length;
-        
+          .filter((a: ConfigurableArg) => a.type === 'position').length;
+
         // Find all positional args in existing args (those not preceded by a flag)
         const existingPositionalArgs: string[] = [];
         for (let i = 0; i < existingArgs.length; i++) {
@@ -122,7 +119,7 @@ const configureArgs = async (
             existingPositionalArgs.push(existingArgs[i]);
           }
         }
-        
+
         if (positionsBefore < existingPositionalArgs.length) {
           defaultValue = existingPositionalArgs[positionsBefore];
         }
@@ -144,13 +141,13 @@ const configureArgs = async (
 
     if (value.trim() !== '') {
       if (arg.type === 'named') {
-        args.push(arg.flag);
-        args.push(value);
+        configurableArgs.push(arg.flag);
+        configurableArgs.push(value);
       } else if (arg.type === 'position') {
-        args.push(value);
+        configurableArgs.push(value);
       }
     }
   }
 
-  return args;
+  return [...fixedArgs, ...configurableArgs];
 };
