@@ -1,5 +1,6 @@
 {
   "name": "firecrawl",
+  "url": "https://github.com/mendableai/firecrawl-mcp-server/",
   "description": "Web scraping and crawling MCP server for extracting data from websites",
   "command": "npx",
   "args": {

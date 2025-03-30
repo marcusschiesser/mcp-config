@@ -38,6 +38,7 @@ export interface MCPServer {
 export interface ServerConfig {
   name: string;
   description: string;
+  url?: string;
   command: string;
   args: ArgsDoc;
   env?: EnvVariable[];

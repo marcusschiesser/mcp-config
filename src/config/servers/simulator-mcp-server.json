@@ -1,0 +1,11 @@
+{
+  "name": "simulator-mcp-server",
+  "description": "An MCP server to control iOS Simulators",
+  "url": "https://github.com/JoshuaRileyDev/simulator-mcp-server",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "@joshuarileydev/simulator-mcp-server"],
+    "configurable": []
+  },
+  "env": []
+}

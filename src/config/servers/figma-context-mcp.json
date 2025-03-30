@@ -1,0 +1,20 @@
+{
+  "name": "figma-context-mcp",
+  "url": "https://github.com/GLips/Figma-Context-MCP",
+
+  "description": "Provide coding agents direct access to Figma data to help them one-shot design implementation",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "figma-developer-mcp", "--stdio"],
+    "configurable": [
+      {
+        "type": "named",
+        "name": "figma-api-key",
+        "flag": "--figma-api-key",
+        "description": "Figma API access token",
+        "required": true
+      }
+    ]
+  },
+  "env": []
+}

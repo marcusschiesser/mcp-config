@@ -1,0 +1,16 @@
+{
+  "name": "xcode-mcp-server",
+  "url": "https://github.com/r-huijts/xcode-mcp-server",
+  "description": "Xcode integration for project management, file operations, and build automation",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "xcode-mcp-server"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "PROJECTS_BASE_DIR",
+      "description": "Path to the Xcode project or workspace"
+    }
+  ]
+}

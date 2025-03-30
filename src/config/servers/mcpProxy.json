@@ -1,0 +1,11 @@
+{
+  "name": "mcpProxy",
+  "url": "https://github.com/JetBrains/mcpProxy",
+  "description": "Connect to JetBrains IDE",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "@jetbrains/mcpProxy"],
+    "configurable": []
+  },
+  "env": []
+}

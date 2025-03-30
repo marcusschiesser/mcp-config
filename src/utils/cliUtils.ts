@@ -86,7 +86,7 @@ export const addNewServer = async (): Promise<{
         name: 'selectedServer',
         message: 'Select a server to add:',
         choices: serverConfigs.map((server) => ({
-          name: `${server.name} - ${server.description}`,
+          name: `${server.name} - ${server.description}${server.url ? ` - ${server.url}` : ''}`,
           value: server.name,
         })),
       },

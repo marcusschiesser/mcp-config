@@ -1,0 +1,11 @@
+{
+  "name": "docker-mcp",
+  "url": "https://github.com/QuantGeekDev/docker-mcp",
+  "description": "Docker container management and operations through MCP",
+  "command": "uvx",
+  "args": {
+    "fixed": ["docker_mcp"],
+    "configurable": []
+  },
+  "env": []
+}

@@ -1,0 +1,12 @@
+{
+  "name": "mcp-package-version",
+  "description": "An MCP Server to help LLMs suggest the latest stable package versions when writing code",
+  "url": "https://github.com/sammcj/mcp-package-version",
+
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "mcp-package-version"],
+    "configurable": []
+  },
+  "env": []
+}

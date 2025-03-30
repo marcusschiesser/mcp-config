@@ -1,5 +1,6 @@
 {
   "name": "llamacloud",
+  "url": "https://github.com/run-llama/mcp-server-llamacloud",
   "description": "LlamaCloud LLM provider MCP server for LlamaIndex integration",
   "command": "npx",
   "args": {
@@ -20,7 +21,7 @@
         "required": true
       }
     ]
-  },  
+  },
   "env": [
     {
       "name": "LLAMA_CLOUD_PROJECT_NAME",
