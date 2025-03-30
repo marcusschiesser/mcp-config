@@ -1,12 +1,12 @@
 import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
-import { MCPConfig, ServerConfig, ServerConfigFile } from '../types/types.js';
+import { MCPConfig, ServerConfig } from '../types/types.js';
 
 // Path to the MCP config file
 const MCP_CONFIG_PATH = path.join(os.homedir(), '.codeium', 'windsurf', 'mcp_config.json');
-// Default path for server configurations
-const DEFAULT_SERVER_CONFIG_PATH = path.join(process.cwd(), 'src', 'config', 'servers.json');
+// Default path for server configurations directory
+const DEFAULT_SERVERS_CONFIG_DIR = path.join(process.cwd(), 'src', 'config', 'servers');
 
 /**
  * Gets the MCP config file, creates it if it doesn't exist
@@ -49,24 +49,41 @@ export const updateMCPConfig = async (config: MCPConfig): Promise<void> => {
 };
 
 /**
- * Gets server configurations from the config file
+ * Gets server configurations from the config directory
  */
-export const getServerConfigs = async (configPath?: string): Promise<ServerConfig[]> => {
-  const serverConfigPath = configPath || DEFAULT_SERVER_CONFIG_PATH;
+export const getServerConfigs = async (configDir?: string): Promise<ServerConfig[]> => {
+  const serversConfigDir = configDir || DEFAULT_SERVERS_CONFIG_DIR;
 
   try {
-    if (await fs.pathExists(serverConfigPath)) {
-      const configContent = await fs.readFile(serverConfigPath, 'utf-8');
-      const config = JSON.parse(configContent) as ServerConfigFile;
-      return config.servers || [];
+    if (await fs.pathExists(serversConfigDir)) {
+      // Get all JSON files in the directory
+      const files = await fs.readdir(serversConfigDir);
+      const jsonFiles = files.filter((file) => file.endsWith('.json'));
+
+      // Read each file and parse as ServerConfig
+      const serverConfigs: ServerConfig[] = [];
+
+      for (const file of jsonFiles) {
+        const filePath = path.join(serversConfigDir, file);
+        try {
+          const configContent = await fs.readFile(filePath, 'utf-8');
+          const config = JSON.parse(configContent) as ServerConfig;
+          serverConfigs.push(config);
+        } catch (error) {
+          console.error(`Error reading server config file ${file}:`, error);
+          // Continue with other files even if one fails
+        }
+      }
+
+      return serverConfigs;
     } else {
       console.log(
-        `Server config file not found at ${serverConfigPath}. Using empty configuration.`
+        `Server config directory not found at ${serversConfigDir}. Using empty configuration.`
       );
       return [];
     }
   } catch (error) {
-    console.error('Error reading server config:', error);
+    console.error('Error reading server configs:', error);
     return [];
   }
 };
@@ -75,11 +92,27 @@ export const getServerConfigs = async (configPath?: string): Promise<ServerConfi
  * Get a server configuration by name
  */
 export const getServerConfig = async (serverName: string): Promise<ServerConfig> => {
+  // First try to load directly from the specific file
+  const specificConfigPath = path.join(DEFAULT_SERVERS_CONFIG_DIR, `${serverName}.json`);
+
+  try {
+    if (await fs.pathExists(specificConfigPath)) {
+      const configContent = await fs.readFile(specificConfigPath, 'utf-8');
+      return JSON.parse(configContent) as ServerConfig;
+    }
+  } catch (error) {
+    console.error(`Error reading specific server config for ${serverName}:`, error);
+    // Fall back to searching all configs
+  }
+
+  // Fall back to searching through all configs
   const serverConfigs = await getServerConfigs();
   const serverConfig = serverConfigs.find((config) => config.name === serverName);
 
   if (!serverConfig) {
-    throw new Error(`Server configuration for ${serverName} not found. Add server to servers.json`);
+    throw new Error(
+      `Server configuration for ${serverName} not found. Add server to the servers directory.`
+    );
   }
 
   return serverConfig;

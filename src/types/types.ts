@@ -42,7 +42,3 @@ export interface ServerConfig {
   args: ArgsDoc;
   env?: EnvVariable[];
 }
-
-export interface ServerConfigFile {
-  servers: ServerConfig[];
-}
