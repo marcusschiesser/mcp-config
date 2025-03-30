@@ -4,12 +4,18 @@ export interface MCPConfig {
   };
 }
 
-export interface ConfigurableArg {
-  type: 'position' | 'named';
+type PositionArg = {
+  type: 'position';
+};
+type NamedArg = {
+  type: 'named';
   flag: string;
+};
+export type ConfigurableArg = {
+  name: string;
   description: string;
   required: boolean;
-}
+} & (PositionArg | NamedArg);
 
 export interface ArgsDoc {
   fixed: string[];

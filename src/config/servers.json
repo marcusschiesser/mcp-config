@@ -24,12 +24,14 @@
         "configurable": [
           {
             "type": "named",
+            "name": "index",
             "flag": "--index",
             "description": "Name of the index to use",
             "required": true
           },
           {
             "type": "named",
+            "name": "description",
             "flag": "--description",
             "description": "Description of the index. Used by the MCP client to decide whether to use the index or not.",
             "required": true

@@ -1,6 +1,12 @@
 import inquirer from 'inquirer';
 import actionSelect from './actionSelect.js';
-import { MCPServer, MCPConfig, EnvVariable, ServerConfig } from '../types/types.js';
+import {
+  MCPServer,
+  MCPConfig,
+  EnvVariable,
+  ServerConfig,
+  ConfigurableArg,
+} from '../types/types.js';
 import { getServerConfigs } from './fileUtils.js';
 
 /**
@@ -162,6 +168,51 @@ export const configureEnvVariables = async (
 };
 
 /**
+ * Collect configurable arguments for a server
+ */
+export const collectConfigurableArgs = async (
+  serverName: string,
+  configurableArgs: ConfigurableArg[] = []
+): Promise<string[]> => {
+  // If no configurable arguments are required, return empty array
+  if (configurableArgs.length === 0) {
+    console.log(`No configurable arguments required for ${serverName}.`);
+    return [];
+  }
+
+  console.log(`\nConfiguring arguments for ${serverName}:`);
+
+  // Create a prompt for each configurable argument
+  const args: string[] = [];
+
+  for (const arg of configurableArgs) {
+    const { value } = await inquirer.prompt<{ value: string }>({
+      type: 'input',
+      name: 'value',
+      message: `Enter value for ${arg.name} (${arg.description}):`,
+      default: '',
+      validate: (input: string) => {
+        if (arg.required && input.trim() === '') {
+          return `argument ${arg.name} cannot be empty.`;
+        }
+        return true;
+      },
+    });
+
+    if (value.trim() !== '') {
+      if (arg.type === 'named') {
+        args.push(arg.flag);
+        args.push(value);
+      } else if (arg.type === 'position') {
+        args.push(value);
+      }
+    }
+  }
+
+  return args;
+};
+
+/**
  * Configure a server with its command, arguments and environment variables
  */
 export const configureServer = async (
@@ -171,10 +222,19 @@ export const configureServer = async (
   // Get the server config by name from available server configs
   const serverConfig = await getServerConfig(serverName);
 
+  // Collect fixed arguments
+  const fixedArgs = [...serverConfig.args.fixed];
+
+  // Collect configurable arguments
+  const configurableArgs = await collectConfigurableArgs(
+    serverName,
+    serverConfig.args.configurable
+  );
+
   // Initialize result with command and args from the server config
   const result: MCPServer = {
     command: serverConfig.command,
-    args: [...serverConfig.args.fixed],
+    args: [...fixedArgs, ...configurableArgs],
     env: await configureEnvVariables(serverName, serverConfig.env, existingConfig?.env),
   };
 
