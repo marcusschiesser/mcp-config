@@ -102,18 +102,9 @@ export const getServerConfig = async (serverName: string): Promise<ServerConfig>
     }
   } catch (error) {
     console.error(`Error reading specific server config for ${serverName}:`, error);
-    // Fall back to searching all configs
   }
 
-  // Fall back to searching through all configs
-  const serverConfigs = await getServerConfigs();
-  const serverConfig = serverConfigs.find((config) => config.name === serverName);
-
-  if (!serverConfig) {
-    throw new Error(
-      `Server configuration for ${serverName} not found. Add server to the servers directory.`
-    );
-  }
-
-  return serverConfig;
+  throw new Error(
+    `Server configuration for ${serverName} not found. Add server to the servers directory.`
+  );
 };
