@@ -70,3 +70,17 @@ export const getServerConfigs = async (configPath?: string): Promise<ServerConfi
     return [];
   }
 };
+
+/**
+ * Get a server configuration by name
+ */
+export const getServerConfig = async (serverName: string): Promise<ServerConfig> => {
+  const serverConfigs = await getServerConfigs();
+  const serverConfig = serverConfigs.find((config) => config.name === serverName);
+
+  if (!serverConfig) {
+    throw new Error(`Server configuration for ${serverName} not found. Add server to servers.json`);
+  }
+
+  return serverConfig;
+};

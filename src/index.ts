@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 import { getMCPConfig, updateMCPConfig } from './utils/fileUtils.js';
-import { configureServer, selectServerToEdit, addNewServer } from './utils/cliUtils.js';
+import { selectServerToEdit, addNewServer } from './utils/cliUtils.js';
+import { configureServer } from './utils/configure.js';
 import inquirer from 'inquirer';
 
 /**
