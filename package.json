@@ -4,7 +4,7 @@
   "description": "CLI client to edit MCP server configurations",
   "main": "dist/index.js",
   "bin": {
-    "mcp-config": "./dist/index.js"
+    "mcp-config": "dist/index.js"
   },
   "type": "module",
   "scripts": {
