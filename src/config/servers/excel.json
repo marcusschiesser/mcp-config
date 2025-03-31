@@ -1,0 +1,16 @@
+{
+  "name": "excel",
+  "url": "https://github.com/haris-musa/excel-mcp-server",
+  "description": "An Excel manipulation server providing workbook creation, data operations, formatting, and advanced features (charts, pivot tables, formulae)",
+  "command": "uv",
+  "args": {
+    "fixed": ["run", "excel_mcp_server"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "EXCEL_FILES_PATH",
+      "description": "Directory where Excel files will be stored (default: ./excel_files)"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "mindmap",
+  "url": "https://github.com/YuChenSSR/mindmap-mcp-server",
+  "description": "MCP server for creating and managing mindmaps as artifacts",
+  "command": "python",
+  "args": {
+    "fixed": ["-m", "mindmap_mcp_server"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "MINDMAP_PORT",
+      "description": "Port for the mindmap MCP server (optional)"
+    },
+    {
+      "name": "MINDMAP_HOST",
+      "description": "Host for the mindmap MCP server (optional)"
+    }
+  ]
+}

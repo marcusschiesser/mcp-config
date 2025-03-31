@@ -1,0 +1,16 @@
+{
+  "name": "rootly",
+  "url": "https://github.com/Rootly-AI-Labs/Rootly-MCP-server",
+  "description": "MCP server that dynamically generates tools based on Rootly's OpenAPI (Swagger) specification for incident management",
+  "command": "uvx",
+  "args": {
+    "fixed": ["--from", "rootly-mcp-server", "rootly-mcp-server"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "ROOTLY_API_KEY",
+      "description": "API key for accessing Rootly services"
+    }
+  ]
+}

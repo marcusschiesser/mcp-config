@@ -61,9 +61,6 @@ export const selectServerToEdit = async (
 };
 
 /**
- * Collect environment variables for a server
- */
-/**
  * Add a new MCP server by selecting from available server configs
  */
 export const addNewServer = async (): Promise<{
