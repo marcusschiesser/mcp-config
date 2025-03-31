@@ -15,7 +15,10 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write 'src/**/*.ts'",
     "prepare": "husky",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint-staged": "lint-staged",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "npm run build && changeset publish",
+    "new-version": "changeset version && npm run format && npm run build"
   },
   "keywords": [
     "cli",
@@ -25,7 +28,6 @@
   ],
   "author": "Marcus Schiesser <mail@marcusschiesser.de>",
   "license": "MIT",
-  "packageManager": "pnpm@10.6.2",
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@types/fs-extra": "^11.0.4",
@@ -48,14 +50,15 @@
     "@inquirer/type": "^3.0.5",
     "ansi-escapes": "^7.0.0",
     "chalk": "^5.4.1",
+    "changeset": "^0.2.6",
     "figures": "^6.1.0",
     "fs-extra": "^11.3.0",
     "inquirer": "^12.5.0"
   },
   "lint-staged": {
     "*.ts": [
-      "pnpm lint",
-      "pnpm format"
+      "npm run lint",
+      "npm run format"
     ]
   }
 }

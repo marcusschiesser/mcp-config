@@ -9,24 +9,24 @@ A CLI tool for managing MCP servers configurations for MCP clients (currently Co
 - View existing server configurations
 - Remove MCP server configurations
 
-## Installation
+## Development
 
 Clone the repository and install dependencies:
 
 ```bash
 git clone <repository-url>
 cd mcp-config
-pnpm install
+npm install
 ```
 
 Build the project:
 
 ```bash
-pnpm build
+npm run build
 ```
 
-Link the CLI globally (optional):
+Start the tool:
 
 ```bash
-pnpm link
+npm run start
 ```
