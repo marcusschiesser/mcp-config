@@ -1,5 +1,11 @@
 # mcp-config
 
+## 0.0.3
+
+### Patch Changes
+
+- 38a8cce: Use full terminal height to show server list
+
 ## 0.0.2
 
 ### Patch Changes
