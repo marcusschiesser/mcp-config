@@ -4,7 +4,7 @@
   "description": "Create crafted UI components inspired by the best 21st.dev design engineers",
   "command": "npx",
   "args": {
-    "fixed": ["-y", "@21st-dev/magic-mcp@latest"],
+    "fixed": ["-y", "@21st-dev/magic@latest"],
     "configurable": [
       {
         "type": "named",
