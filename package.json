@@ -1,6 +1,6 @@
 {
   "name": "mcp-config",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "CLI client to edit MCP server configurations",
   "main": "dist/index.js",
   "bin": {
@@ -23,8 +23,8 @@
     "codeium",
     "windsurf"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Marcus Schiesser <mail@marcusschiesser.de>",
+  "license": "MIT",
   "packageManager": "pnpm@10.6.2",
   "devDependencies": {
     "@eslint/js": "^9.23.0",
