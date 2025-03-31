@@ -1,4 +1,4 @@
-# MCP Client
+# MCP Config
 
 A CLI tool for managing MCP (Modular Capability Provider) server configurations for Codeium Windsurf.
 
@@ -15,7 +15,7 @@ Clone the repository and install dependencies:
 
 ```bash
 git clone <repository-url>
-cd mcp-client
+cd mcp-config
 pnpm install
 ```
 

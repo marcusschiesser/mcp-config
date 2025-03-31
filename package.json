@@ -1,10 +1,10 @@
 {
-  "name": "mcp-client",
+  "name": "mcp-config",
   "version": "1.0.0",
   "description": "CLI client to edit MCP server configurations",
   "main": "dist/index.js",
   "bin": {
-    "mcp-client": "./dist/index.js"
+    "mcp-config": "./dist/index.js"
   },
   "type": "module",
   "scripts": {

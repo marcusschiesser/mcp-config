@@ -10,7 +10,7 @@ import inquirer from 'inquirer';
  */
 async function main() {
   try {
-    console.log('MCP Client - Configure MCP servers');
+    console.log('MCP Config - Configure MCP servers');
     console.log('------------------------------------');
 
     // Get the current MCP config
