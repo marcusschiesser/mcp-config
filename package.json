@@ -29,6 +29,7 @@
   "author": "Marcus Schiesser <mail@marcusschiesser.de>",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
     "@eslint/js": "^9.23.0",
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
@@ -50,7 +51,6 @@
     "@inquirer/type": "^3.0.5",
     "ansi-escapes": "^7.0.0",
     "chalk": "^5.4.1",
-    "changeset": "^0.2.6",
     "figures": "^6.1.0",
     "fs-extra": "^11.3.0",
     "inquirer": "^12.5.0"
