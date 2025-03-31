@@ -4,13 +4,40 @@ import { getMCPConfig, updateMCPConfig } from './utils/fileUtils.js';
 import { selectServerToEdit, addNewServer } from './utils/cliUtils.js';
 import { configureServer } from './utils/configure.js';
 import inquirer from 'inquirer';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+import fs from 'fs-extra';
+
+/**
+ * Get package version from package.json
+ */
+async function getPackageVersion() {
+  try {
+    // Get the directory of the current module
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+
+    // Resolve the path to package.json (two levels up from dist/index.js)
+    const packagePath = resolve(__dirname, '..', 'package.json');
+
+    // Read and parse package.json
+    const packageJson = await fs.readJSON(packagePath);
+    return packageJson.version;
+  } catch (error) {
+    console.error('Error reading package version:', error);
+    return 'unknown';
+  }
+}
 
 /**
  * Main function to configure MCP servers
  */
 async function main() {
   try {
-    console.log('MCP Config - Configure MCP servers');
+    // Get version from package.json
+    const version = await getPackageVersion();
+
+    console.log(`MCP Config v${version} - Configure MCP servers`);
     console.log('------------------------------------');
 
     // Get the current MCP config

@@ -9,6 +9,13 @@ A CLI tool for managing MCP servers configurations for MCP clients (currently Co
 - View existing server configurations
 - Remove MCP server configurations
 
+## Getting Started
+
+Just call `npx mcp-config` in your terminal. Then select an already installed MCP server and press an action key to 
+perform the desired action (configure, remove or view details).
+
+To add a new MCP server, press the "a" key (Add New). 
+
 ## Development
 
 Clone the repository and install dependencies:

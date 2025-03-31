@@ -35,7 +35,7 @@ export const selectServerToEdit = async (
     }
 
     const result = await actionSelect({
-      message: 'Select an MCP server and action:',
+      message: 'Select an MCP server and press an action key:',
       actions: [
         { value: 'add', name: 'Add New', key: 'a' },
         { value: 'configure', name: 'Configure', key: 'return' },
