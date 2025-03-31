@@ -7,5 +7,18 @@
     "fixed": ["-y", "@jetbrains/mcpProxy"],
     "configurable": []
   },
-  "env": []
+  "env": [
+    {
+      "name": "IDE_PORT",
+      "description": "Port of IDE's built-in webserver"
+    },
+    {
+      "name": "HOST",
+      "description": "Host/address of IDE's built-in webserver (default: 127.0.0.1)"
+    },
+    {
+      "name": "LOG_ENABLED",
+      "description": "Enable logging (set to 'true' to enable)"
+    }
+  ]
 }

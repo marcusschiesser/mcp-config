@@ -10,6 +10,7 @@ type PositionArg = {
 type NamedArg = {
   type: 'named';
   flag: string;
+  style?: 'space' | 'equals';
 };
 export type ConfigurableArg = {
   name: string;

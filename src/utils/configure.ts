@@ -141,8 +141,12 @@ const configureArgs = async (
 
     if (value.trim() !== '') {
       if (arg.type === 'named') {
-        configurableArgs.push(arg.flag);
-        configurableArgs.push(value);
+        if (arg.style === 'equals') {
+          configurableArgs.push(`${arg.flag}=${value}`);
+        } else {
+          configurableArgs.push(arg.flag);
+          configurableArgs.push(value);
+        }
       } else if (arg.type === 'position') {
         configurableArgs.push(value);
       }

@@ -4,12 +4,13 @@
   "description": "Create crafted UI components inspired by the best 21st.dev design engineers",
   "command": "npx",
   "args": {
-    "fixed": ["-y", "@21st-dev/magic-mcp"],
+    "fixed": ["-y", "@21st-dev/magic-mcp@latest"],
     "configurable": [
       {
         "type": "named",
         "name": "api-key",
-        "flag": "--api-key",
+        "flag": "API_KEY",
+        "style": "equals",
         "description": "API key for accessing 21st.dev Magic services",
         "required": true
       }
