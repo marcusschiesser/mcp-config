@@ -2,6 +2,7 @@ import inquirer from 'inquirer';
 import { addNewServer, selectServerToEdit } from '../utils/cliUtils.js';
 import { configureServer } from '../utils/configure.js';
 import { getMCPConfig, updateMCPConfig } from '../utils/fileUtils.js';
+import pc from 'picocolors';
 
 export async function selectAndConfigure() {
   // Get the current MCP config
@@ -27,11 +28,9 @@ export async function selectAndConfigure() {
         return;
       }
     } else {
-      console.log(`\nSelected server: ${serverToEdit}, Action: ${action}`);
-
       if (action === 'configure') {
         // Edit selected server
-        console.log(`\nConfiguring ${serverToEdit}...`);
+        console.log(`\n${pc.bold('Configuring')} ${serverToEdit}...\n`);
 
         // Get the current server configuration
         const currentConfig = mcpConfig.mcpServers[serverToEdit];
@@ -42,7 +41,6 @@ export async function selectAndConfigure() {
         // Update the MCP config
         mcpConfig.mcpServers[serverToEdit] = updatedServer;
       } else if (action === 'remove') {
-        console.log(`\nRemoving ${serverToEdit}...`);
         // Confirm removal
         const confirmation = await inquirer.prompt<{ confirm: boolean }>([
           {

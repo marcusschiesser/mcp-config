@@ -45,7 +45,6 @@ export const getMCPConfig = async (): Promise<MCPConfig> => {
 export const updateMCPConfig = async (config: MCPConfig): Promise<void> => {
   try {
     await fs.writeFile(MCP_CONFIG_PATH, JSON.stringify(config, null, 2));
-    console.log('MCP config updated successfully!');
   } catch (error) {
     console.error('Error updating MCP config:', error);
     throw error;

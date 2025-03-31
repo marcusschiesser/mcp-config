@@ -3,6 +3,8 @@
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import fs from 'fs-extra';
+import pc from 'picocolors';
+import ansiEscapes from 'ansi-escapes';
 import { addOrConfigureServer } from './commands/addOrConfigureServer.js';
 import { selectAndConfigure } from './commands/selectAndConfigure.js';
 
@@ -43,6 +45,32 @@ function parseCommandLineArgs() {
 }
 
 /**
+ * Display a modern welcome banner
+ */
+async function displayWelcomeBanner(version: string) {
+  // Clear the screen
+  process.stdout.write(ansiEscapes.clearScreen);
+
+  // Create a stylish banner
+  console.log('');
+  console.log(pc.bgCyan(pc.black(' '.repeat(60))));
+  console.log(
+    pc.bgCyan(
+      pc.black(
+        `  ${pc.bold('MCP CONFIG')} ${pc.dim(`v${version}`)}${' '.repeat(43 - version.length)}  `
+      )
+    )
+  );
+  console.log(pc.bgCyan(pc.black(' '.repeat(60))));
+  console.log('');
+  // Subtitle
+  console.log(`${pc.bold('Manage Your MCP Servers')}`);
+  // Separator
+  console.log(pc.dim('─'.repeat(60)));
+  console.log('');
+}
+
+/**
  * Main function to configure MCP servers
  */
 async function main() {
@@ -50,8 +78,8 @@ async function main() {
     // Get version from package.json
     const version = await getPackageVersion();
 
-    console.log(`MCP Config v${version} - Configure MCP servers`);
-    console.log('-----------------------------------------');
+    // Display welcome banner
+    await displayWelcomeBanner(version);
 
     // Parse command line arguments
     const cliArgs = parseCommandLineArgs();

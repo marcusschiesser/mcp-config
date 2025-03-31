@@ -18,9 +18,16 @@ export const configureServer = async (
   // Initialize result with command and args from the server config
   const result: MCPServer = {
     command: serverConfig.command,
-    args: await configureArgs(serverName, serverConfig.args, existingConfig?.args),
-    env: await configureEnvVariables(serverName, serverConfig.env, existingConfig?.env),
+    args: await configureArgs(serverConfig.args, existingConfig?.args),
+    env: await configureEnvVariables(serverConfig.env, existingConfig?.env),
   };
+
+  if (
+    result.args.length === serverConfig.args.fixed.length &&
+    (!result.env || Object.keys(result.env).length === 0)
+  ) {
+    console.log(`No arguments or environment variables required to configure ${serverName}.`);
+  }
 
   return result;
 };
@@ -29,17 +36,13 @@ export const configureServer = async (
  * Configure environment variables for a server
  */
 const configureEnvVariables = async (
-  serverName: string,
   envVarsToCollect: EnvVariable[] = [],
   existingEnv: Record<string, string> = {}
 ): Promise<Record<string, string>> => {
   // If no environment variables are required, return empty object
   if (envVarsToCollect.length === 0) {
-    console.log(`No environment variables required for ${serverName}.`);
     return {};
   }
-
-  console.log(`\nConfiguring environment variables for ${serverName}:`);
 
   // Create a prompt for each environment variable
   const envVars: Record<string, string> = {};
@@ -69,7 +72,6 @@ const configureEnvVariables = async (
  * Collect and return all arguments for a server (fixed and configurable)
  */
 const configureArgs = async (
-  serverName: string,
   serverArgs: ArgsDoc,
   existingArgs: string[] = []
 ): Promise<string[]> => {
@@ -78,11 +80,8 @@ const configureArgs = async (
 
   // If no configurable arguments are required, return only fixed args
   if (serverArgs.configurable.length === 0) {
-    console.log(`No configurable arguments required for ${serverName}.`);
     return [...fixedArgs];
   }
-
-  console.log(`\nConfiguring arguments for ${serverName}:`);
 
   // Create a prompt for each configurable argument
   const configurableArgs: string[] = [];

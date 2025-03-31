@@ -3,6 +3,7 @@ import actionSelect from './actionSelect.js';
 import { MCPServer, MCPConfig } from '../types/types.js';
 import { getServerConfigs } from './fileUtils.js';
 import { configureServer } from './configure.js';
+import pc from 'picocolors';
 
 /**
  * Prompt the user to select which activated servers to edit and what action to perform
@@ -84,7 +85,7 @@ export const addNewServer = async (): Promise<{
         message: 'Select a server to add:',
         pageSize: process.stdout.rows ? Math.max(process.stdout.rows - 4, 15) : 15, // Use terminal height minus some space for prompt
         choices: serverConfigs.map((server) => ({
-          name: `${server.name} - ${server.description}${server.url ? ` - ${server.url}` : ''}`,
+          name: `${pc.bold(server.name)} - ${pc.dim(server.description)}${server.url ? ` - ${pc.underline(server.url)}` : ''}`,
           value: server.name,
         })),
       },
