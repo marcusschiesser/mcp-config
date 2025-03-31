@@ -82,6 +82,7 @@ export const addNewServer = async (): Promise<{
         type: 'list',
         name: 'selectedServer',
         message: 'Select a server to add:',
+        pageSize: process.stdout.rows ? Math.max(process.stdout.rows - 4, 15) : 15, // Use terminal height minus some space for prompt
         choices: serverConfigs.map((server) => ({
           name: `${server.name} - ${server.description}${server.url ? ` - ${server.url}` : ''}`,
           value: server.name,

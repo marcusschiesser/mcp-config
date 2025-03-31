@@ -51,7 +51,7 @@ async function main() {
     const version = await getPackageVersion();
 
     console.log(`MCP Config v${version} - Configure MCP servers`);
-    console.log('------------------------------------');
+    console.log('-----------------------------------------');
 
     // Parse command line arguments
     const cliArgs = parseCommandLineArgs();
