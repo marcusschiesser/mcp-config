@@ -1,5 +1,11 @@
 # mcp-config
 
+## 0.0.4
+
+### Patch Changes
+
+- 05a4117: Add Claude and Cursor support
+
 ## 0.0.3
 
 ### Patch Changes
