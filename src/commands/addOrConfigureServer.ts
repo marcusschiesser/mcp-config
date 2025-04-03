@@ -1,5 +1,5 @@
 import { configureServer } from '../utils/configure.js';
-import { getMCPConfig, updateMCPConfig } from '../utils/fileUtils.js';
+import { getMCPConfig, updateMCPConfig } from '../utils/mcpClients.js';
 
 /**
  * Add or configure a server by name

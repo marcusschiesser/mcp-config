@@ -44,3 +44,9 @@ export interface ServerConfig {
   args: ArgsDoc;
   env?: EnvVariable[];
 }
+
+export interface MCPClientConfig {
+  name: string;
+  path: string;
+  description: string;
+}

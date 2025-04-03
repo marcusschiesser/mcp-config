@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import { ArgsDoc, ConfigurableArg, EnvVariable, MCPServer } from '../types/types.js';
-import { getServerConfig } from './fileUtils.js';
+import { getServerConfig } from './serverConfigs.js';
 
 /**
  * Configure a server with its command, arguments and environment variables

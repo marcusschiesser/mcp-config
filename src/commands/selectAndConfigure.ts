@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 import { addNewServer, selectServerToEdit } from '../utils/cliUtils.js';
 import { configureServer } from '../utils/configure.js';
-import { getMCPConfig, updateMCPConfig } from '../utils/fileUtils.js';
+import { getMCPConfig, updateMCPConfig } from '../utils/mcpClients.js';
 import pc from 'picocolors';
 
 export async function selectAndConfigure() {

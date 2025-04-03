@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 import actionSelect from './actionSelect.js';
 import { MCPServer, MCPConfig } from '../types/types.js';
-import { getServerConfigs } from './fileUtils.js';
+import { getServerConfigs } from './serverConfigs.js';
 import { configureServer } from './configure.js';
 import pc from 'picocolors';
 
