@@ -1,5 +1,11 @@
 # mcp-config
 
+## 0.0.6
+
+### Patch Changes
+
+- e871b93: Add Github MCP server
+
 ## 0.0.5
 
 ### Patch Changes
