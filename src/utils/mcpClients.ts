@@ -1,8 +1,8 @@
 import fs from 'fs-extra';
 import path from 'path';
 import inquirer from 'inquirer';
-import { MCPClientConfig, MCPConfig } from '../types/types.js';
-import { MCP_CLIENTS } from '../config/clients.js';
+import { MCPConfig, MCPClientConfig } from '../types/types.js';
+import { getPlatformClients as getMCPClients } from '../config/clients.js';
 import pc from 'picocolors';
 
 // Active MCP client config (will be set dynamically)
@@ -14,7 +14,7 @@ let activeMCPClient: MCPClientConfig | null = null;
 export const getAvailableMCPClients = async (): Promise<MCPClientConfig[]> => {
   const availableClients: MCPClientConfig[] = [];
 
-  for (const client of MCP_CLIENTS) {
+  for (const client of getMCPClients()) {
     if (await fs.pathExists(client.path)) {
       availableClients.push(client);
     }
@@ -29,7 +29,7 @@ export const getAvailableMCPClients = async (): Promise<MCPClientConfig[]> => {
 export const promptUserForMCPClient = async (
   availableClients: MCPClientConfig[]
 ): Promise<MCPClientConfig> => {
-  const clients = availableClients.length > 0 ? availableClients : MCP_CLIENTS;
+  const clients = availableClients.length > 0 ? availableClients : getMCPClients();
 
   // Create a message based on whether clients were found
   const message =
