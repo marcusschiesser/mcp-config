@@ -1,0 +1,23 @@
+{
+  "name": "github",
+  "url": "https://github.com/github/github-mcp-server",
+  "description": "Official MCP server for GitHub integration",
+  "command": "docker",
+  "args": {
+    "fixed": [
+      "run",
+      "-i",
+      "--rm",
+      "-e",
+      "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "ghcr.io/github/github-mcp-server"
+    ],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "description": "Personal access token for GitHub API access"
+    }
+  ]
+}
