@@ -1,5 +1,11 @@
 # mcp-config
 
+## 0.0.5
+
+### Patch Changes
+
+- cec2f9c: Support Windows
+
 ## 0.0.4
 
 ### Patch Changes
