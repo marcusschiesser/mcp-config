@@ -1,5 +1,12 @@
 # mcp-config
 
+## 0.0.7
+
+### Patch Changes
+
+- f62dc7e: Add browserbase MCP
+- f62dc7e: Add Brave MCP server
+
 ## 0.0.6
 
 ### Patch Changes
