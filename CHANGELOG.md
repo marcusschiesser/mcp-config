@@ -1,5 +1,11 @@
 # mcp-config
 
+## 0.0.8
+
+### Patch Changes
+
+- 65b466e: Add supabase MCP server
+
 ## 0.0.7
 
 ### Patch Changes
