@@ -1,0 +1,16 @@
+{
+  "name": "brave-search",
+  "url": "https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search",
+  "description": "MCP server that integrates the Brave Search API for web and local search capabilities",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "@modelcontextprotocol/server-brave-search"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "BRAVE_API_KEY",
+      "description": "API key for Brave Search service"
+    }
+  ]
+}

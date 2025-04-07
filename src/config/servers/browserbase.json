@@ -1,0 +1,20 @@
+{
+  "name": "browserbase",
+  "url": "https://github.com/browserbase/mcp-server-browserbase/tree/main/browserbase",
+  "description": "Allow LLMs to control a browser with Browserbase and Stagehand",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "@browserbasehq/mcp-browserbase"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "BROWSERBASE_API_KEY",
+      "description": "API key for Browserbase service"
+    },
+    {
+      "name": "BROWSERBASE_PROJECT_ID",
+      "description": "Project ID for your Browserbase project"
+    }
+  ]
+}
