@@ -1,0 +1,19 @@
+{
+  "name": "supabase",
+  "url": "https://github.com/supabase-community/supabase-mcp",
+  "description": "Connect your Supabase projects for database management, SQL queries, and project configuration",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "@supabase/mcp-server-supabase@latest"],
+    "configurable": [
+      {
+        "type": "named",
+        "name": "access-token",
+        "flag": "--access-token",
+        "description": "Personal access token for Supabase authentication",
+        "required": true
+      }
+    ]
+  },
+  "env": []
+}
