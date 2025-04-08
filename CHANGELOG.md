@@ -1,5 +1,11 @@
 # mcp-config
 
+## 0.0.9
+
+### Patch Changes
+
+- 6bbd266: Add elevenlabs MCP server
+
 ## 0.0.8
 
 ### Patch Changes
