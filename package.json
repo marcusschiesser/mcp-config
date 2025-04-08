@@ -13,7 +13,7 @@
     "dev": "ts-node --esm src/index.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "format": "prettier --write 'src/**/*.ts'",
+    "format": "prettier --write 'src/**/*.ts' --write 'src/**/*.json'",
     "prepare": "husky",
     "lint-staged": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1",

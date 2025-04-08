@@ -1,0 +1,16 @@
+{
+  "name": "elevenlabs",
+  "url": "https://github.com/elevenlabs/elevenlabs-mcp",
+  "description": "Official ElevenLabs MCP server for Text to Speech and audio processing APIs",
+  "command": "uvx",
+  "args": {
+    "fixed": ["elevenlabs-mcp"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "ELEVENLABS_API_KEY",
+      "description": "API key for ElevenLabs service"
+    }
+  ]
+}
