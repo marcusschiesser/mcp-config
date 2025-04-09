@@ -1,6 +1,6 @@
 # MCP Config
 
-A CLI tool for managing MCP servers configurations for MCP clients (currently Codeium Windsurf).
+A CLI tool for managing MCP servers configurations for MCP clients.
 
 ## Features
 
@@ -9,6 +9,7 @@ A CLI tool for managing MCP servers configurations for MCP clients (currently Co
 - Configure and add MCP servers with interactive prompts
 - View existing server configurations
 - Remove MCP server configurations
+- Supports Claude, Windsurf and Cursor
 
 ## Getting Started
 
