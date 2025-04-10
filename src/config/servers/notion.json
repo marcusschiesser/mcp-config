@@ -1,0 +1,16 @@
+{
+  "name": "notion",
+  "url": "https://github.com/makenotion/notion-mcp-server",
+  "description": "Official Notion MCP server for interacting with the Notion API",
+  "command": "npx",
+  "args": {
+    "fixed": ["-y", "@notionhq/notion-mcp-server"],
+    "configurable": []
+  },
+  "env": [
+    {
+      "name": "OPENAPI_MCP_HEADERS",
+      "description": "JSON string containing Authorization with Notion API token and Notion-Version"
+    }
+  ]
+}
