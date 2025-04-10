@@ -1,5 +1,11 @@
 # mcp-config
 
+## 0.0.10
+
+### Patch Changes
+
+- a523984: Add Notion MCP server configuration
+
 ## 0.0.9
 
 ### Patch Changes
